@@ -112,16 +112,32 @@ getAllResults(progressCallback, "http://127.0.0.1:8000/api/airports/?iso_country
 
 // What is the average cost of a transatlantic flight?
 // TODO - This could be way improved, perhaps with a post, or nesting airports in flights
-// TODO - make it so it doesn't assume GBP
 getAllResults(progressCallback, "http://127.0.0.1:8000/api/airports/?continent=NA&fields=iata_code")
     .then(results => {
         const na_codes = results.map(p => p.iata_code)
         const base_url = "http://127.0.0.1:8000/api/flights/?dest_air="
         const req_url = base_url + na_codes.join(',')
 
+        fx.base = "GBP";
+        fx.rates = {
+            "AUD": 1.84, // eg. 1 USD === 0.745101 EUR
+            "ZAR": 21.21, // etc...
+            "ARS": 101.90,
+            "GBP": 1,        // always include the base rate (1:1)
+            /* etc */
+        }
+
+        function convert(val, from) {
+            result = val;
+            if (from !== "GBP") {
+                fx.convert(val, {from: from, to: "GBP"});
+            }
+            return val;
+        }
+
         getAllResults(progressCallback, req_url)
             .then(na_results => {
-                let prices = na_results.map(p => p.original_price)
+                let prices = na_results.map(p => convert(p.original_price, p.original_currency))
 
                 let sum = 0;
                 for (let i = 0; i < prices.length; i++) {
