@@ -131,11 +131,11 @@ getAllResults(progressCallback, "http://127.0.0.1:8000/api/airports/?continent=N
         const req_url = base_url + na_codes.join(',') + fields
 
         function convert(val, from) {
-            result = val;
+            let result = val;
             if (from !== "GBP") {
-                fx.convert(val, {from: from, to: "GBP"});
+                result = fx.convert(val, {from: from, to: "GBP"});
             }
-            return val;
+            return result;
         }
 
         getAllResults(progressCallback, req_url)
