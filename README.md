@@ -3,6 +3,8 @@
 In the uppermost `code_test/` directory, run the following: 
 
 ```shell script
+git clone https://github.com/euan-cowie/code_test.git
+cd code_test
 docker-compose -f local.yml up --build
 ```
 
@@ -19,7 +21,8 @@ python3 --version
 First, make the uppermost `code_test/` directory your working 
 directory and create a virtualenv:
 ```shell script
-cd <user_path>/code_test
+git clone https://github.com/euan-cowie/code_test.git
+cd code_test
 python3 -m venv venv
 source venv/bin/activate
 ```
