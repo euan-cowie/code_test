@@ -127,7 +127,8 @@ getAllResults(progressCallback, "http://127.0.0.1:8000/api/airports/?continent=N
     .then(results => {
         const na_codes = results.map(p => p.iata_code)
         const base_url = "http://127.0.0.1:8000/api/flights/?dest_air="
-        const req_url = base_url + na_codes.join(',')
+        const fields = "&fields=original_price,original_currency"
+        const req_url = base_url + na_codes.join(',') + fields
 
         function convert(val, from) {
             result = val;

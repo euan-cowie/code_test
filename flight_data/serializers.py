@@ -48,6 +48,7 @@ class SegmentSerializer(serializers.ModelSerializer):
 
 
 class FlightSerializer(DynamicFieldsModelSerializer, serializers.ModelSerializer):
+    # TODO - need to weigh pros and cons of such nesting
     segments = SegmentSerializer(many=True, source='segment_set')
     dep_air = AirportSerializer(many=False)
     dest_air = AirportSerializer(many=False)
