@@ -151,5 +151,3 @@ getAllResults(progressCallback, "http://127.0.0.1:8000/api/airports/?continent=N
                 document.getElementById('trans-atlantic-cost').innerHTML = '£' + Math.floor(sum / prices.length);
             })
     })
-
-// Performance
