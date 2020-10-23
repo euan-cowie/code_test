@@ -9,6 +9,7 @@ def format_none(val):
     return val
 
 
+# TODO - should definitely create/insert in batch
 def create_dispatch(context, file_path, create_func):
     with open(file_path) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
@@ -55,7 +56,7 @@ def create_airport(row, context):
             Airport.objects.create(
                 iata_code=row[9], name=row[2], continent=row[4], iso_country=row[5],
             )
-            context.stdout.write(context.style.SUCCESS(f'Inserted Segment for Airport ID: {row[9]}'))
+            context.stdout.write(context.style.SUCCESS(f'Inserted Airport ID: {row[9]}'))
 
 
 class Command(BaseCommand):

@@ -1,19 +1,19 @@
-### With Docker (recommended!)
+## With Docker (recommended!)
 
 In the uppermost `code_test/` directory, run the following: 
 
 ```shell script
-docker-compose up -f local.yml --build
+docker-compose -f local.yml up --build
 ```
 
 Then head to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
 Cheers :)
 
-### Without Docker
+## Without Docker
 Assuming you have python3.8 installed, check with:
 ```shell script
-python --version
+python3 --version
 ```
 
 First, make the uppermost `code_test/` directory your working 
@@ -39,3 +39,7 @@ python manage.py parse_data flight data/flighdata_B.csv
 python manage.py parse_data segment data/flighdata_B_segments.csv
 python manage.py runserver 127.0.0.1:8000
 ```
+
+Then head to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+
+Thank you :)
