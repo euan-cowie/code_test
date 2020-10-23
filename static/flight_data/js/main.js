@@ -122,11 +122,11 @@ getAllResults(progressCallback, "http://127.0.0.1:8000/api/airports/?iso_country
     })
 
 // What is the average cost of a transatlantic flight?
-// TODO - This could be way improved, perhaps with a post, or nesting airports in flights
+// TODO - This could be way improved, perhaps with a post, or nesting, or async js
 getAllResults(progressCallback, "http://127.0.0.1:8000/api/airports/?continent=NA&fields=iata_code")
     .then(results => {
         const na_codes = results.map(p => p.iata_code)
-        const base_url = "http://127.0.0.1:8000/api/flights/?dest_air="
+        const base_url = "http://127.0.0.1:8000/api/flights/?out_flight_class=Economy&dest_air="
         const fields = "&fields=original_price,original_currency"
         const req_url = base_url + na_codes.join(',') + fields
 
@@ -151,3 +151,5 @@ getAllResults(progressCallback, "http://127.0.0.1:8000/api/airports/?continent=N
                 document.getElementById('trans-atlantic-cost').innerHTML = '£' + Math.floor(sum / prices.length);
             })
     })
+
+// Performance
