@@ -13,6 +13,7 @@ def format_none(val):
 def bulk_create_flight(context, file_path):
     with open(file_path) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
+        count = 0
         next(csv_reader)
         objs = [
             Flight(
@@ -27,14 +28,17 @@ def bulk_create_flight(context, file_path):
             )
             for row in csv_reader
         ]
-        msg = Flight.objects.bulk_create(objs)
+        # TODO - should be an update from flat file - dockerization hack
+        if not Flight.objects.exists():
+            count = len(Flight.objects.bulk_create(objs))
 
-    context.stdout.write(context.style.SUCCESS(f'Processed {len(msg)} Flight rows.'))
+    context.stdout.write(context.style.SUCCESS(f'Processed {count} Flight rows.'))
 
 
 def bulk_create_segment(context, file_path):
     with open(file_path) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
+        count = 0
         next(csv_reader)
         objs = [
             Segment(
@@ -45,14 +49,16 @@ def bulk_create_segment(context, file_path):
             )
             for row in csv_reader
         ]
-        msg = Segment.objects.bulk_create(objs)
+        if not Segment.objects.exists():
+            count = len(Segment.objects.bulk_create(objs))
 
-    context.stdout.write(context.style.SUCCESS(f'Processed {len(msg)} Segment rows.'))
+    context.stdout.write(context.style.SUCCESS(f'Processed {count} Segment rows.'))
 
 
 def bulk_create_airport(context, file_path):
     with open(file_path) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
+        count = 0
         next(csv_reader)
         objs = [
             Airport(
@@ -60,9 +66,10 @@ def bulk_create_airport(context, file_path):
             )
             for row in csv_reader if row[9] and row[1] != 'closed'
         ]
-        msg = Airport.objects.bulk_create(objs, ignore_conflicts=True)
+        if not Airport.objects.exists():
+            count = len(Airport.objects.bulk_create(objs, ignore_conflicts=True))
 
-    context.stdout.write(context.style.SUCCESS(f'Processed {len(msg)} Airport rows.'))
+    context.stdout.write(context.style.SUCCESS(f'Processed {count} Airport rows.'))
 
 
 class Command(BaseCommand):
