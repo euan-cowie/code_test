@@ -1,4 +1,15 @@
 //
+//  Settings
+//
+fx.base = "GBP";
+fx.rates = {
+    "AUD": 1.84,
+    "ZAR": 21.21,
+    "ARS": 101.90,
+    "GBP": 1,
+}
+
+//
 //  Function Declarations
 //
 function getResult(url) {
@@ -117,15 +128,6 @@ getAllResults(progressCallback, "http://127.0.0.1:8000/api/airports/?continent=N
         const na_codes = results.map(p => p.iata_code)
         const base_url = "http://127.0.0.1:8000/api/flights/?dest_air="
         const req_url = base_url + na_codes.join(',')
-
-        fx.base = "GBP";
-        fx.rates = {
-            "AUD": 1.84, // eg. 1 USD === 0.745101 EUR
-            "ZAR": 21.21, // etc...
-            "ARS": 101.90,
-            "GBP": 1,        // always include the base rate (1:1)
-            /* etc */
-        }
 
         function convert(val, from) {
             result = val;
