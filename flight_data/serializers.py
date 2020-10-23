@@ -12,23 +12,31 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
         # Instantiate the superclass normally
         super(DynamicFieldsModelSerializer, self).__init__(*args, **kwargs)
 
-        fields = self.context['request'].query_params.get('fields')
-        if fields:
-            fields = fields.split(',')
-            # Drop any fields that are not specified in the `fields` argument.
-            allowed = set(fields)
-            existing = set(self.fields.keys())
-            for field_name in existing - allowed:
-                self.fields.pop(field_name)
+        request = self.context.get('request')
+
+        if request:
+            fields = request.query_params.get('fields')
+            if fields:
+                fields = fields.split(',')
+                # Drop any fields that are not specified in the `fields` argument.
+                allowed = set(fields)
+                existing = set(self.fields.keys())
+                for field_name in existing - allowed:
+                    self.fields.pop(field_name)
 
 
 class AirportSerializer(DynamicFieldsModelSerializer, serializers.ModelSerializer):
     class Meta:
         model = Airport
-        fields = ('iata_code', 'name', 'continent', 'iso_country',)
+        fields = (
+            'iata_code', 'name', 'continent', 'iso_country',
+        )
 
 
 class SegmentSerializer(serializers.ModelSerializer):
+    dep_code = AirportSerializer(many=False)
+    arr_code = AirportSerializer(many=False)
+
     class Meta:
         model = Segment
         fields = (  # TODO - Could be __all__ if no fine tuning
@@ -41,6 +49,10 @@ class SegmentSerializer(serializers.ModelSerializer):
 
 class FlightSerializer(DynamicFieldsModelSerializer, serializers.ModelSerializer):
     segments = SegmentSerializer(many=True, source='segment_set')
+    dep_air = AirportSerializer(many=False)
+    dest_air = AirportSerializer(many=False)
+    in_depart_code = AirportSerializer(many=False)
+    in_arrive_code = AirportSerializer(many=False)
 
     class Meta:
         model = Flight
