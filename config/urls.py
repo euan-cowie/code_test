@@ -1,8 +1,7 @@
-from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework_nested import routers
-from flight_data import views
+from code_test.flight_data import views
 
 router = DefaultRouter()
 router.register(r'flights', views.FlightViewSet)

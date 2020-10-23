@@ -1,6 +1,6 @@
 import csv
 from django.core.management.base import BaseCommand, CommandError
-from flight_data.models import Flight, Segment, Airport
+from code_test.flight_data.models import Flight, Segment, Airport
 
 
 def format_none(val):

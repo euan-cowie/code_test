@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class FlightDataConfig(AppConfig):
-    name = 'flight_data'
+    name = 'code_test.flight_data'

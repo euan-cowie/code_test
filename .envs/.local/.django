@@ -1,0 +1,5 @@
+# General
+# ------------------------------------------------------------------------------
+USE_DOCKER=yes
+
+DATABASE_URL=postgres://test:password@postgres:5432/code_test
